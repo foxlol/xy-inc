@@ -47,7 +47,7 @@ mvn clean package && java -jar target/xy-inc-products-api.jar
 
 ## Construção e Distribuição (Docker)
 
-Para não depender de configuração de infraestrutura também é possivel utilizar o script do Docker para construção e utilização da API.
+Para não depender de configuração de infraestrutura também é possivel utilizar o script do Docker para construção e distribuição da API.
 
 O script se encontra na pasta ```docker```.
 
@@ -59,4 +59,8 @@ docker run ...
 
 ## Testes
 
-Para
+Para executar os testes execute o seguinte comando:
+
+```
+mvn clean test
+```
