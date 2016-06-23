@@ -1,17 +1,18 @@
-# xy-inc - API REST para Manipulação de Dados de Produtos
+# API REST para Manipulação de Dados de Produtos
 
 ## Utilização
 
-### Estrutura do Produto
+#### Estrutura do Produto
 
 Atributo | Tipo
 -------- | -------------
+id | integer
 name | string
 description | string
 price | decimal
 category | string
 
-### Recursos
+#### Recursos
 
 Método HTTP | URI           | Descrição          | Produz | Consome
 ----------- | ------------- | ------------------ | ------ | --------
