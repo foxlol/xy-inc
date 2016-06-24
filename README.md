@@ -26,40 +26,27 @@ DELETE | /products/{id} | Deleta um produto | JSON | JSON
 
 A API foi desenvolvida em uma arquitetura REST para permitir uma fácil integração a outros sistemas e também visando escalabilidade, manutenibilidade e extensibilidade.
 
-Os dados são mantidos em um banco de dados NoSQL em memória mas configurados para também persistir em disco, obtendo assim maior velocidade no processamento dos mesmos e alta disponibilidade.
+A arquitetura está projetada para possibilitar uma fácil evolução do seu projeto e a utilização de qualquer tipo de implementação de persistência de dados.
 
 ## Tecnologias
 
 * Oracle Java 8
 * Apache Maven
 * Spring Framework
-* Redis
 
 ## Construção e Distribuição (Maven)
 
-A API roda em um Container WEB Java embutido, portanto não necessita de instalação de nenhum container ou servidor de aplicação. Entretando é necessário ter o Redis (com a configuração padrão) instalado na máquina.
+A API roda em um Container WEB Java (Tomcat) e um banco de dados (HSQLDB) embutidos, portanto não necessita de instalação de nenhum container ou banco de dados.
 
-Para construir e iniciar a aplicação execute o seguinte comando na pasta raiz:
-
-```
-mvn clean package && java -jar target/xy-inc-products-api.jar
-```
-
-## Construção e Distribuição (Docker)
-
-Para não depender de configuração de infraestrutura também é possivel utilizar o script do Docker para construção e distribuição da API.
-
-O script se encontra na pasta ```docker```.
-
-Para executá-lo rode o comando abaixo no terminal do Docker:
+Para construir e iniciar a aplicação execute o seguinte comando na pasta ```products-api```:
 
 ```
-docker run ...
+mvn clean package && java -jar target/products-api.jar
 ```
 
 ## Testes
 
-Para executar os testes execute o seguinte comando:
+Para executar a suite de testes execute o seguinte comando:
 
 ```
 mvn clean test
