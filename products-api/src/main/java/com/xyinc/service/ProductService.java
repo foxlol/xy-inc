@@ -81,8 +81,6 @@ public class ProductService {
 			
 		} catch (DataIntegrityViolationException e) {
 			
-			e.printStackTrace();
-			
 			throw new InvalidProductException();
 		}
 	}
@@ -124,8 +122,6 @@ public class ProductService {
 
 		} catch (DataIntegrityViolationException e) {
 			
-			e.printStackTrace();
-			
 			throw new InvalidProductException();
 		}
 	}
@@ -145,9 +141,7 @@ public class ProductService {
 			this.productRepository.delete(id);
 			
 		} catch (EmptyResultDataAccessException e) {
-			
-			e.printStackTrace();
-			
+
 			throw new ProductNotFoundException();
 		}
 	}
