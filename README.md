@@ -33,6 +33,8 @@ Para construir e distribuir a aplicação execute o seguinte comando na pasta ``
 mvn clean package && java -jar target/products-api.jar
 ```
 
+*Neste momento a suite de testes unitários também é executada para garantir a integridade da aplicação.*
+
 ## Utilização
 
 ###### Acesso
@@ -75,9 +77,15 @@ POST | /products | Cria um novo produto | application/json | application/json
 PUT | /products/{id} | Edita um produto | application/json | application/json
 DELETE | /products/{id} | Deleta um produto | application/json | application/json
 
-## Testes
+Como a API produz e consome dados no formato JSON, o acesso diretamente pelo navegador não funcionará para todos os recursos.
 
-Para executar a suite de testes execute o seguinte comando:
+É recomendado utilizar alguma ferramenta utilitária de comunicação HTTP como *cURL* ou *Postman* para efetuar as chamadas aos recursos.
+
+Está sendo disponibilizado o arquivo *Products.postman_collection* que contém exemplos de chamadas aos recursos e que pode ser importado na ferramenta Postman.
+
+## Testes unitários
+
+Para executar a suite de testes unitários execute o seguinte comando:
 
 ```
 mvn clean test
