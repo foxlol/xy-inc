@@ -25,7 +25,7 @@ Visando testabilidade e praticidade na evolução, o projeto possui configuraç�
 
 A API roda em um Container WEB Java (Tomcat) e um banco de dados (HSQLDB) embutidos, portanto não necessita de instalação de nenhum container ou banco de dados.
 
-É necessário apenas ter o *Apache Maven* instalado e configurado no PATH da máquina.
+É necessário apenas ter o *Oracle JDK 8+* e *Apache Maven 3+* instalados e configurados no PATH da máquina.
 
 Para construir e distribuir a aplicação execute o seguinte comando na pasta ```products-api```:
 
