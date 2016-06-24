@@ -69,11 +69,11 @@ Formato JSON:
 
 Método HTTP | URI           | Descrição          | Produz | Consome
 ----------- | ------------- | ------------------ | ------ | --------
-GET | /products | Lista todos os produtos | JSON | JSON
-GET | /products/{id} | Busca um produto por id | JSON | JSON
-POST | /products | Cria um novo produto | JSON | JSON
-PUT | /products/{id} | Edita um produto | JSON | JSON
-DELETE | /products/{id} | Deleta um produto | JSON | JSON
+GET | /products | Lista todos os produtos | application/json | application/json
+GET | /products/{id} | Busca um produto por id | application/json | application/json
+POST | /products | Cria um novo produto | application/json | application/json
+PUT | /products/{id} | Edita um produto | application/json | application/json
+DELETE | /products/{id} | Deleta um produto | application/json | application/json
 
 ## Testes
 
