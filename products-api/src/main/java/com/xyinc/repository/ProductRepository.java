@@ -1,6 +1,6 @@
 package com.xyinc.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.xyinc.model.Product;
 
@@ -10,6 +10,6 @@ import com.xyinc.model.Product;
  * @author diogenes.feijo
  *
  */
-public interface ProductRepository extends CrudRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 }

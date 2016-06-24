@@ -3,10 +3,13 @@ package com.xyinc.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
+import com.xyinc.exception.InvalidProductException;
+import com.xyinc.exception.ProductNotFoundException;
 import com.xyinc.model.Product;
 import com.xyinc.repository.ProductRepository;
 
@@ -30,7 +33,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Collection<Product> getAllProducts() {
 
-		return Lists.newArrayList(this.productRepository.findAll());
+		return this.productRepository.findAll();
 	}
 	
 	/**
@@ -39,11 +42,20 @@ public class ProductService {
 	 * @param id - id do produto
 	 * 
 	 * @return produto obtido
+	 * 
+	 * @throws ProductNotFoundException produto não encontrado
 	 */
 	@Transactional(readOnly = true)
-	public Product getProductById(Integer id) {
+	public Product getProductById(Integer id) throws ProductNotFoundException {
 		
-		return this.productRepository.findOne(id);
+		Product product = this.productRepository.findOne(id);
+		
+		if (product == null) {
+			
+			throw new ProductNotFoundException();
+		}
+		
+		return product;
 	}
 	
 	/**
@@ -52,11 +64,27 @@ public class ProductService {
 	 * @param product - produto a ser criado
 	 * 
 	 * @return produto criado
+	 * 
+	 * @throws InvalidProductException produto inválido
 	 */
-	@Transactional
-	public Product createProduct(Product product) {
-				
-		return this.productRepository.save(product);		
+	@Transactional(rollbackFor = InvalidProductException.class)
+	public Product createProduct(Product product) throws InvalidProductException {
+		
+		if (product == null) {
+			
+			throw new InvalidProductException();
+		}
+		
+		try {
+			
+			return this.productRepository.save(product);
+			
+		} catch (DataIntegrityViolationException e) {
+			
+			e.printStackTrace();
+			
+			throw new InvalidProductException();
+		}
 	}
 	
 	/**
@@ -64,15 +92,25 @@ public class ProductService {
 	 * 
 	 * @param id - id do produto
 	 * @param updatedProduct - produto atualizado
+	 * 
+	 * @return produto atualizado
+	 * 
+	 * @throws ProductNotFoundException produto não encontrado para atualização
+	 * @throws InvalidProductException produto inválido
 	 */
-	@Transactional
-	public void updateProduct(Integer id, Product updatedProduct) {
+	@Transactional(rollbackFor = InvalidProductException.class)
+	public Product updateProduct(Integer id, Product updatedProduct) throws ProductNotFoundException, InvalidProductException {
 		
 		Product productForUpdate = this.productRepository.findOne(id);
 		
 		if (productForUpdate == null) {
 			
-			throw new RuntimeException("Produto inexistente");
+			throw new ProductNotFoundException();
+		}
+		
+		if (updatedProduct == null) {
+			
+			throw new InvalidProductException();
 		}
 		
 		productForUpdate.setName(updatedProduct.getName());
@@ -80,18 +118,38 @@ public class ProductService {
 		productForUpdate.setPrice(updatedProduct.getPrice());
 		productForUpdate.setCategory(updatedProduct.getCategory());
 		
-		this.productRepository.save(productForUpdate);
+		try {
+			
+			return this.productRepository.saveAndFlush(productForUpdate);
+
+		} catch (DataIntegrityViolationException e) {
+			
+			e.printStackTrace();
+			
+			throw new InvalidProductException();
+		}
 	}
 	
 	/**
-	 * Deleta um produto.
+	 * Remove um produto.
 	 * 
 	 * @param id - id do produto
+	 * 
+	 * @throws ProductNotFoundException produto não encontrado para remoção
 	 */
-	@Transactional
-	public void deleteProduct(Integer id) {
+	@Transactional(rollbackFor = ProductNotFoundException.class)
+	public void deleteProduct(Integer id) throws ProductNotFoundException {
 		
-		this.productRepository.delete(id);
+		try {
+			
+			this.productRepository.delete(id);
+			
+		} catch (EmptyResultDataAccessException e) {
+			
+			e.printStackTrace();
+			
+			throw new ProductNotFoundException();
+		}
 	}
 	
 }

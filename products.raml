@@ -1,0 +1,114 @@
+#%RAML 1.0
+title: products
+version: v0.1
+baseUri: http://localhost:8080/
+mediaType: application/json
+types:
+    Product:
+      properties:
+        id?: integer
+        name: string
+        description: string
+        price: number
+        category: string
+    Error:
+      properties:
+        timestamp: integer
+        status: integer
+        error: string
+        exception: string
+        message: string
+        path: string
+/products:
+  get:
+    description: Obtém todos os produtos cadastrados
+    responses:
+      200:
+        body:
+          application/json:
+            type: Product[]
+  post:
+    description: Cadastra um produto
+    body:
+      application/json:
+        type: Product
+        example: {
+          "name" : "produto teste",
+          "description" : "descrição teste",
+          "price" : 100.50,
+          "category" : "categoria teste"
+        }
+    responses:
+      201:
+        body:
+          application/json:
+            type: Product
+  /{id}:
+    get:
+      description: Obtém um produto cadastrado
+      responses:
+        200:
+          body:
+            application/json:
+              type: Product
+        404:
+          description: Nenhum resultado encontrado
+          body:
+            application/json:
+              type: Error
+              example:  
+                {
+                  "timestamp": 1466774123882,
+                  "status": 404,
+                  "error": "Not Found",
+                  "exception": "com.xyinc.exception.ProductNotFoundException",
+                  "message": "Produto não encontrado",
+                  "path": "/products/1"
+                }
+    put:
+      description: Atualiza um produto cadastrado
+      body:
+        application/json:
+          type: Product
+          example: {
+            "name" : "produto teste atualizado",
+            "description" : "descrição teste atualizada",
+            "price" : 200.70,
+            "category" : "categoria teste atualizada"
+          }
+      responses:
+        204:
+          description: Produto atualizado com sucesso
+        404:
+          description: Nenhum resultado encontrado
+          body:
+            application/json:
+              type: Error
+              example:  
+                {
+                  "timestamp": 1466774123882,
+                  "status": 404,
+                  "error": "Not Found",
+                  "exception": "com.xyinc.exception.ProductNotFoundException",
+                  "message": "Produto não encontrado",
+                  "path": "/products/1"
+                }
+    delete:
+      description: Remove um produto cadastrado
+      responses:
+        204:
+          description: Produto removido com sucesso
+        404:
+          description: Nenhum resultado encontrado
+          body:
+            application/json:
+              type: Error
+              example:  
+                {
+                  "timestamp": 1466774123882,
+                  "status": 404,
+                  "error": "Not Found",
+                  "exception": "com.xyinc.exception.ProductNotFoundException",
+                  "message": "Produto não encontrado",
+                  "path": "/products/1"
+                }

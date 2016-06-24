@@ -1,16 +1,25 @@
 # API REST para Manipulação de Dados de Produtos
 
+## Definição
+
+A API foi definida e documentada para melhor entendimento da sua utilização através da linguagem de modelagem RAML (RESTful API Modeling Language).
+
+Para consultar a definição acesse o arquivo ```products.raml``` utilizando a ferramenta de sua preferência.
+
 ## Arquitetura
 
 A API foi desenvolvida em uma arquitetura REST para permitir uma fácil integração a outros sistemas e também visando escalabilidade, manutenibilidade e extensibilidade.
 
 A arquitetura está projetada para possibilitar uma fácil evolução do seu projeto e a utilização de qualquer tipo de implementação de persistência de dados.
 
+Visando testabilidade e praticidade na evolução, o projeto possui configuração para cobertura de testes unitários para serviços, repositórios de dados e serviços WEB com massa de dados independente permitindo alterações e refatorações seguras respaldadas nos testes.
+
 ## Tecnologias
 
 * Oracle Java 8
 * Apache Maven
 * Spring Framework
+* HSQLDB
 
 ## Construção e Distribuição (Maven)
 
@@ -29,25 +38,27 @@ mvn clean package && java -jar target/products-api.jar
 Após a construção e distribuição da aplicação a API estará disponível para acesso no seguinte endereço:
 
 ```
-http://localhost:8080/products-api/
+http://localhost:8080/products/
 ```
 
 ###### Estrutura do Produto
 
 Atributo | Tipo
 -------- | -------------
+id | integer
 name | string
 description | string
-price | decimal
+price | number
 category | string
 
 Formato JSON:
 
 ```
 {
-    "name" : "test name",
+    "id" : 1,
+	"name" : "test name",
     "description" : "test description",
-    "price" : "100.00",
+    "price" : 100.00,
     "category" : "test category"
 }
 ```

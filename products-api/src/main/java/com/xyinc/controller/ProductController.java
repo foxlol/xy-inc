@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.xyinc.exception.InvalidProductException;
+import com.xyinc.exception.ProductNotFoundException;
 import com.xyinc.model.Product;
 import com.xyinc.service.ProductService;
 
@@ -47,24 +49,27 @@ public class ProductController {
 	 * @param id - identificador do produto
 	 * 
 	 * @return Resposta HTTP com o produto obtido
+	 * 
+	 * @throws ProductNotFoundException produto não encontrado
 	 */
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Product> getProductById(@PathVariable("id") Integer id) {
+	public ResponseEntity<Product> getProductById(@PathVariable("id") Integer id) throws ProductNotFoundException {
 		
 		return ResponseEntity.ok(this.productService.getProductById(id));
 	}
 	
 	/**
-	 * Cria um produto
+	 * Cria um produto.
 	 * 
 	 * @param product - produto a ser criado
 	 * 
 	 * @return Resposta HTTP com o produto criado
 	 * 
 	 * @throws URISyntaxException erro na sintaxe da URI do produto criado
+	 * @throws InvalidProductException produto inválido
 	 */
 	@RequestMapping(path = {"", "/"}, method = RequestMethod.POST)
-	public ResponseEntity<Product> createProduct(@RequestBody Product product, UriComponentsBuilder uriComponentsBuilder) throws URISyntaxException {
+	public ResponseEntity<Product> createProduct(@RequestBody Product product, UriComponentsBuilder uriComponentsBuilder) throws URISyntaxException, InvalidProductException {
 		
 		product = this.productService.createProduct(product);
 		
@@ -77,13 +82,16 @@ public class ProductController {
 	}
 	
 	/**
-	 * Atualiza um produto
+	 * Atualiza um produto.
 	 * 
 	 * @param id - id do produto a ser atualizado
 	 * @param product - produto atualizado
+	 * 
+	 * @throws ProductNotFoundException produto não encontrado para atualização
+	 * @throws InvalidProductException  produto inválido
 	 */
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateProduct(@PathVariable("id") Integer id, @RequestBody Product product) {
+	public ResponseEntity<Void> updateProduct(@PathVariable("id") Integer id, @RequestBody Product product) throws ProductNotFoundException, InvalidProductException {
 
 		this.productService.updateProduct(id, product);
 		
@@ -91,12 +99,14 @@ public class ProductController {
 	}
 	
 	/**
-	 * Deleta um produto
+	 * Remove um produto.
 	 * 
 	 * @param id - id do produto a ser deletado
+	 * 
+	 * @throws ProductNotFoundException produto não encontrado para remoção
 	 */
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer id) {
+	public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer id) throws ProductNotFoundException {
 		
 		this.productService.deleteProduct(id);
 
